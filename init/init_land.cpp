@@ -42,11 +42,10 @@
 #include <sys/_system_properties.h>
 #include <sys/sysinfo.h>
 
-#include "property_service.h"
 #include "vendor_init.h"
 
+using android::base::SetProperty;
 using android::base::GetProperty;
-using android::init::property_set;
 
 static std::string board_id;
 
@@ -95,19 +94,19 @@ static void parse_cmdline_boardid(const std::string& key,
 
 static void set_ramconfig() {
     if (is3GBram()) {
-        property_set("dalvik.vm.heapstartsize", "8m");
-        property_set("dalvik.vm.heapgrowthlimit", "288m");
-        property_set("dalvik.vm.heapsize", "768m");
-        property_set("dalvik.vm.heaptargetutilization", "0.75");
-        property_set("dalvik.vm.heapminfree", "512k");
-        property_set("dalvik.vm.heapmaxfree", "8m");
+        SetProperty("dalvik.vm.heapstartsize", "8m");
+        SetProperty("dalvik.vm.heapgrowthlimit", "288m");
+        SetProperty("dalvik.vm.heapsize", "768m");
+        SetProperty("dalvik.vm.heaptargetutilization", "0.75");
+        SetProperty("dalvik.vm.heapminfree", "512k");
+        SetProperty("dalvik.vm.heapmaxfree", "8m");
     } else {
-        property_set("dalvik.vm.heapstartsize", "8m");
-        property_set("dalvik.vm.heapgrowthlimit", "192m");
-        property_set("dalvik.vm.heapsize", "512m");
-        property_set("dalvik.vm.heaptargetutilization", "0.75");
-        property_set("dalvik.vm.heapminfree", "2m");
-        property_set("dalvik.vm.heapmaxfree", "8m");
+        SetProperty("dalvik.vm.heapstartsize", "8m");
+        SetProperty("dalvik.vm.heapgrowthlimit", "192m");
+        SetProperty("dalvik.vm.heapsize", "512m");
+        SetProperty("dalvik.vm.heaptargetutilization", "0.75");
+        SetProperty("dalvik.vm.heapminfree", "2m");
+        SetProperty("dalvik.vm.heapmaxfree", "8m");
     }
 }
 
@@ -120,7 +119,7 @@ static void variant_properties() {
     import_kernel_cmdline_land(false, parse_cmdline_boardid);
 
     // Set board id
-    property_set("ro.product.wt.boardid", board_id.c_str());
+    SetProperty("ro.product.wt.boardid", board_id.c_str());
 
     // Set variant based on board_id
     if (board_id == "S88537AB1") {
